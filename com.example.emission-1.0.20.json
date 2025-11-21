@@ -1,0 +1,46 @@
+{
+    "RecipeFormatVersion": "2020-01-25",
+    "ComponentName": "com.example.emission",
+    "ComponentVersion": "1.0.20",
+    "ComponentType": "aws.greengrass.generic",
+    "ComponentDescription": "Processes CO2 rows and calls process_emission.py.",
+    "Manifests": [
+        {
+            "Platform": {
+                "os": "linux"
+            },
+            "Lifecycle": {
+                "Install": {
+                    "Timeout": 300,
+                    "Script": "python3 -m pip install --break-system-packages awsgreengrasspubsubsdk greengrasssdk"
+                },
+                "Run": {
+                    "Script": "python3 -u {artifacts:path}/main.py '{\"base-pubsub-topic\": \"com.example.emission\",\"ipc-subscribe-topics\": [\"emission/requests\"],\"mqtt-subscribe-topics\": [\"emission/requests\"]}'"
+                }
+            },
+            "Artifacts": [
+                {
+                    "Uri": "s3://emission-lab-bucket/emission-component/main.py",
+                    "Digest": "6yo5MvCVGQJEg6aHGRse+j4O3L1DrvmXsVvkGp5ejTs=",
+                    "Algorithm": "SHA-256",
+                    "Unarchive": "NONE",
+                    "Permission": {
+                        "Read": "OWNER",
+                        "Execute": "NONE"
+                    }
+                },
+                {
+                    "Uri": "s3://emission-lab-bucket/emission-component/process_emission.py",
+                    "Digest": "l4eNy6hDjZfi0qUuEpCg8mpy0LDi9XcvmMYNP3/6cdE=",
+                    "Algorithm": "SHA-256",
+                    "Unarchive": "NONE",
+                    "Permission": {
+                        "Read": "OWNER",
+                        "Execute": "NONE"
+                    }
+                }
+            ]
+        }
+    ],
+    "Lifecycle": {}
+}

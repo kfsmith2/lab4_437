@@ -1,0 +1,49 @@
+{
+  "RecipeFormatVersion": "2020-01-25",
+  "ComponentName": "firehose_publisher",
+  "ComponentVersion": "1.0.1",
+  "ComponentDescription": "Send processed vehicle data to Firehose",
+  "ComponentPublisher": "student",
+
+  "ComponentDependencies": {
+    "aws.greengrass.KinesisFirehose": {
+      "VersionRequirement": ">=2.0.0"
+    },
+    "aws.greengrass.TokenExchangeService": {
+      "VersionRequirement": ">=2.0.0"
+    }
+  },
+
+  "ComponentConfiguration": {
+    "DefaultConfiguration": {
+      "accessControl": {
+        "aws.greengrass.KinesisFirehose": {
+          "firehose:publish": {
+            "operations": [
+              "aws.greengrass.KinesisFirehose.PutRecordBatch"
+            ],
+            "resources": [
+              "*"
+            ]
+          }
+        }
+      }
+    }
+  },
+
+  "Manifests": [
+    {
+      "Platform": {
+        "os": "linux"
+      },
+      "Lifecycle": {
+        "Run": "python3 {artifacts:path}/firehose_publisher.py"
+      },
+      "Artifacts": [
+        {
+          "URI": "s3://emission-lab-bucket/firehose_publisher/firehose_publisher.py"
+        }
+      ]
+    }
+  ]
+}
